@@ -31,11 +31,13 @@ export class InvestimentosListComponent implements OnInit {
   }
 
   goToResgatePersonalizado(investimento: any) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        model: investimento,
-      },
-    };
-    this.router.navigate(['/resgate'], navigationExtras);
+    if (investimento.indicadorCarencia === 'N') {
+      const navigationExtras: NavigationExtras = {
+        state: {
+          model: investimento,
+        },
+      };
+      this.router.navigate(['/resgate'], navigationExtras);
+    }
   }
 }
