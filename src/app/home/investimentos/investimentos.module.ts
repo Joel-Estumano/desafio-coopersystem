@@ -1,0 +1,27 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { InvestimentoService } from './services/investimento.service';
+import { InvestimentosListComponent } from './views/list/investimentos-list.component';
+import { RouterModule, Routes } from '@angular/router';
+import { ResgatePersonalisadoComponent } from './views/resgate/resgate-personalisado.component';
+import { NgxCurrencyModule } from 'ngx-currency';
+
+const routes: Routes = [
+  { path: '', redirectTo: 'list' },
+  { path: 'list', component: InvestimentosListComponent },
+  { path: 'resgate', component: ResgatePersonalisadoComponent }
+]
+
+@NgModule({
+  declarations: [
+    InvestimentosListComponent,
+    ResgatePersonalisadoComponent
+  ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    NgxCurrencyModule
+  ],
+  providers: [InvestimentoService]
+})
+export class InvestimentosModule { }
