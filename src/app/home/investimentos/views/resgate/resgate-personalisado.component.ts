@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -11,8 +12,16 @@ export class ResgatePersonalisadoComponent implements OnInit {
   public model: any;
   public acoes: any[] = [];
 
+  public form: FormGroup;
+
   constructor(private readonly route: ActivatedRoute,
-    private readonly router: Router) {
+    private readonly router: Router,
+    private readonly fb: FormBuilder) {
+
+    this.form = this.fb.group({
+      valorResgate: [null, [Validators.required]]
+    });
+
     if (this.router.getCurrentNavigation() != null) {
       const currentState = this.router.getCurrentNavigation()?.extras?.state;
       if (!currentState?.['model']) {
@@ -20,6 +29,8 @@ export class ResgatePersonalisadoComponent implements OnInit {
       }
       this.model = currentState?.['model'];
       console.log(this.model)
+
+
     }
   }
 
@@ -43,6 +54,10 @@ export class ResgatePersonalisadoComponent implements OnInit {
 
   goToLista() {
     this.router.navigate(['/list']);
+  }
+
+  addToAllChange(value: any) {
+
   }
 
 }

@@ -5,6 +5,7 @@ import { InvestimentosListComponent } from './views/list/investimentos-list.comp
 import { RouterModule, Routes } from '@angular/router';
 import { ResgatePersonalisadoComponent } from './views/resgate/resgate-personalisado.component';
 import { NgxCurrencyModule } from 'ngx-currency';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', redirectTo: 'list' },
@@ -20,7 +21,9 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    NgxCurrencyModule
+    NgxCurrencyModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [InvestimentoService]
 })
