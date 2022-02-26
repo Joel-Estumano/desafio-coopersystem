@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -10,8 +10,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ResgatePersonalisadoComponent implements OnInit {
 
   public model: any;
-  public acoes: any[] = [];
-
   public form: FormGroup;
 
   constructor(private readonly route: ActivatedRoute,
@@ -19,18 +17,19 @@ export class ResgatePersonalisadoComponent implements OnInit {
     private readonly fb: FormBuilder) {
 
     this.form = this.fb.group({
-      valorResgate: [null, [Validators.required]]
+      indicadorCarencia: [null, Validators.required],
+      nome: [null, Validators.required],
+      objetivo: [null, Validators.required],
+      acoes: this.fb.array([])
     });
 
     if (this.router.getCurrentNavigation() != null) {
       const currentState = this.router.getCurrentNavigation()?.extras?.state;
-      if (!currentState?.['model']) {
+      if (!currentState?.['data']) {
         this.goToLista();
       }
-      this.model = currentState?.['model'];
+      this.model = currentState?.['data'];
       console.log(this.model)
-
-
     }
   }
 
@@ -39,9 +38,8 @@ export class ResgatePersonalisadoComponent implements OnInit {
   }
 
   loadAcoes() {
-    if (this.model.acoes) {
-      this.acoes = this.model.acoes;
-    }
+    this.form.patchValue(this.model)
+    this.addAcoes();
   }
 
   calcSaldoAcumul(percentual: number) {
@@ -56,8 +54,17 @@ export class ResgatePersonalisadoComponent implements OnInit {
     this.router.navigate(['/list']);
   }
 
-  addToAllChange(value: any) {
-
+  addAcoes() {
+    this.model.acoes.forEach((acao: any) => {
+      this.getFormArrayAcoes.push(this.fb.group(Object.assign(acao, { resgatar: 0 })))
+    });
   }
 
+  get getFormArrayAcoes(): FormArray {
+    return this.form.get('acoes') as FormArray;
+  }
+
+  getControls() {
+    return (this.form.get('acoes') as FormArray).controls;
+  }
 }

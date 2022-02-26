@@ -14,18 +14,21 @@
                                                 <i class="fa fa-user mr-1"></i>
                                                 <span class="ms-2">{{model.nome}}</span>
                                             </h6>
+                                            <!--  -->
                                         </div>
                                         <div class="col border-end">
                                             <h6 class="card-title text-uppercase">
                                                 <i class="fa fa-chart-line mr-1"></i>
                                                 <span class="ms-2">{{model.objetivo}}</span>
                                             </h6>
+                                            <!--  -->
                                         </div>
                                         <div class="col">
                                             <h6 class="card-title text-uppercase">
                                                 <i class="fa fa-dollar-sign mr-1"></i>
                                                 <span class="ms-2">{{model.saldoTotal | currency : 'R$' }}</span>
                                             </h6>
+                                            <!--  -->
                                         </div>
                                     </div>
                                 </li>
@@ -49,16 +52,16 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item" *ngFor="let acao of acoes; index as i;">
+                                <li class="list-group-item" *ngFor="let acao of getControls(); let i = index">
                                     <div class="row align-items-start mt-1 mb-1">
                                         <div class="col">
-                                            <h6 class="card-text fw-normal">{{acao.nome}}</h6>
+                                            <h6 class="card-text fw-normal">{{acao.value.nome}}</h6>
                                         </div>
                                         <div class="col">
-                                            <h6 class="card-text fw-normal">{{ calcSaldoAcumul(acao.percentual) | currency : 'R$'}}</h6>
+                                            <h6 class="card-text fw-normal">{{ calcSaldoAcumul(acao.value.percentual) | currency : 'R$'}}</h6>
                                         </div>
                                         <div class="col">
-                                            <input type="text" class="form-control form-control-sm" placeholder="Digite quanto quer resgatar" currencyMask formControlName="valorResgate">
+                                            <input type="text" class="form-control form-control-sm" placeholder="Digite quanto quer resgatar" currencyMask>
                                             <span class="invalid-feedback">
                                         O valor a resgatar não pode ser maior que {{0 | currency : 'R$'}}
                                     </span>
@@ -71,7 +74,7 @@
                     <div class="card mt-4">
                         <div class="card-body px-4 py-2 d-flex justify-content-between">
                             <p class="card-text fw-bolder">Valor total do resgate: <span class="fw-normal">{{ 0 | currency : 'R$' }}</span></p>
-                            <p class="card-text fw-bolder">Form: <span class="fw-normal">{{ form.value | json }}</span></p>
+                            <!-- <p class="card-text fw-bolder">Form: <span class="fw-normal">{{ form.value | json }}</span></p> -->
                         </div>
                     </div>
                     <div class="d-grid gap-0 d-md-flex justify-content-md-end mt-4">

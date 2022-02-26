@@ -9,8 +9,7 @@ import { InvestimentoService } from '../../services/investimento.service';
 })
 export class InvestimentosListComponent implements OnInit {
 
-  public listaInvestimentos: any;
-  public load = true;
+  public investimentos$: any;
 
   constructor(private readonly investimentoService: InvestimentoService,
     private readonly router: Router) { }
@@ -20,21 +19,14 @@ export class InvestimentosListComponent implements OnInit {
   }
 
   loadInvestimentos() {
-    this.investimentoService.get().subscribe(res => {
-      if (res.response.status == '200') {
-        this.listaInvestimentos = res.response.data.listaInvestimentos;
-        this.load = false;
-      } else {
-        console.log('failed to retrieve data')
-      }
-    });
+    this.investimentos$ = this.investimentoService.get();
   }
 
   goToResgatePersonalizado(investimento: any) {
     if (investimento.indicadorCarencia === 'N') {
       const navigationExtras: NavigationExtras = {
         state: {
-          model: investimento,
+          data: investimento,
         },
       };
       this.router.navigate(['/resgate'], navigationExtras);

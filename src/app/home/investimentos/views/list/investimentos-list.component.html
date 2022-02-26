@@ -3,11 +3,7 @@
         <div class="col">
             <div class="p-4 border bg-light">
                 <h4 class="font-weight-normal text-uppercase">investimentos</h4>
-                <div class="d-flex align-items-center" *ngIf="load">
-                    <p class="fw-normal">Loading...</p>
-                    <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
-                </div>
-                <div class="card mt-4" *ngIf="!load">
+                <div class="card mt-4" *ngIf="investimentos$ | async as investimentos; else loading">
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
@@ -23,7 +19,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="list-group-item" *ngFor="let investimento of listaInvestimentos; index as i;">
+                            <li class="list-group-item" *ngFor="let investimento of investimentos$ | async; index as i;">
                                 <div class="row align-items-start mt-1 mb-1" [ngClass]="{'text-muted': investimento.indicadorCarencia === 'N' ? false : true }" [ngStyle]="{'cursor': investimento.indicadorCarencia === 'N' ? 'pointer' : 'default' }" [attr.title]="investimento.indicadorCarencia === 'N' ? 'Click para ver detalhes do ' + investimento.nome : null "
                                     data-bs-toggle="tooltip" (click)="goToResgatePersonalizado(investimento)">
                                     <div class="col">
@@ -40,6 +36,12 @@
                         </ul>
                     </div>
                 </div>
+                <ng-template #loading>
+                    <div class="d-flex align-items-center">
+                        <p class="fw-normal">Loading...</p>
+                        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>
