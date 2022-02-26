@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './resgate-personalisado.component.html',
   styleUrls: ['./resgate-personalisado.component.scss']
 })
-export class ResgatePersonalisadoComponent implements OnInit {
+export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
 
   public data: any;
   public form: FormGroup;
@@ -35,6 +35,10 @@ export class ResgatePersonalisadoComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAcoes();
+  }
+
+  ngAfterViewInit() {
+    console.log(this.getFormArrayAcoes)
   }
 
   loadAcoes() {
