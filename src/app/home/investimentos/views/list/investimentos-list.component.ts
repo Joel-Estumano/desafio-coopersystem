@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { InvestimentoService } from '../../services/investimento.service';
 
 @Component({
@@ -9,27 +10,29 @@ import { InvestimentoService } from '../../services/investimento.service';
 })
 export class InvestimentosListComponent implements OnInit {
 
-  public investimentos$: any;
+  public investimentos$: Observable<any>;
 
   constructor(private readonly investimentoService: InvestimentoService,
-    private readonly router: Router) { }
+    private readonly router: Router) {
+    this.investimentos$ = new Observable()
+  }
 
   ngOnInit(): void {
-    this.loadInvestimentos();
+    this.loadInvestimentos()
   }
 
   loadInvestimentos() {
-    this.investimentos$ = this.investimentoService.get();
+    this.investimentos$ = this.investimentoService.get()
   }
 
   goToResgatePersonalizado(investimento: any) {
     if (investimento.indicadorCarencia === 'N') {
       const navigationExtras: NavigationExtras = {
         state: {
-          data: investimento,
-        },
-      };
-      this.router.navigate(['/resgate'], navigationExtras);
+          data: investimento
+        }
+      }
+      this.router.navigate(['/resgate'], navigationExtras)
     }
   }
 }

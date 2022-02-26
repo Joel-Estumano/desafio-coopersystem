@@ -19,7 +19,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="list-group-item" *ngFor="let investimento of investimentos$ | async; index as i;">
+                            <li class="list-group-item" *ngFor="let investimento of investimentos; index as i;">
                                 <div class="row align-items-start mt-1 mb-1" [ngClass]="{'text-muted': investimento.indicadorCarencia === 'N' ? false : true }" [ngStyle]="{'cursor': investimento.indicadorCarencia === 'N' ? 'pointer' : 'default' }" [attr.title]="investimento.indicadorCarencia === 'N' ? 'Click para ver detalhes do ' + investimento.nome : null "
                                     data-bs-toggle="tooltip" (click)="goToResgatePersonalizado(investimento)">
                                     <div class="col">
