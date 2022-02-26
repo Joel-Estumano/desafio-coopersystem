@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ResgatePersonalisadoComponent implements OnInit {
 
-  public model: any;
+  public data: any;
   public form: FormGroup;
 
   constructor(private readonly route: ActivatedRoute,
@@ -20,7 +20,8 @@ export class ResgatePersonalisadoComponent implements OnInit {
       indicadorCarencia: [null, Validators.required],
       nome: [null, Validators.required],
       objetivo: [null, Validators.required],
-      acoes: this.fb.array([])
+      acoes: this.fb.array([]),
+      saldoTotal: [null, Validators.required]
     });
 
     if (this.router.getCurrentNavigation() != null) {
@@ -28,8 +29,7 @@ export class ResgatePersonalisadoComponent implements OnInit {
       if (!currentState?.['data']) {
         this.goToLista();
       }
-      this.model = currentState?.['data'];
-      console.log(this.model)
+      this.data = currentState?.['data'];
     }
   }
 
@@ -38,12 +38,12 @@ export class ResgatePersonalisadoComponent implements OnInit {
   }
 
   loadAcoes() {
-    this.form.patchValue(this.model)
+    this.form.patchValue(this.data)
     this.addAcoes();
   }
 
   calcSaldoAcumul(percentual: number) {
-    return percentual * this.model.saldoTotal / 100;
+    return percentual * this.data.saldoTotal / 100;
   }
 
   goToResgatar(acao: any) {
@@ -55,7 +55,7 @@ export class ResgatePersonalisadoComponent implements OnInit {
   }
 
   addAcoes() {
-    this.model.acoes.forEach((acao: any) => {
+    this.data.acoes.forEach((acao: any) => {
       this.getFormArrayAcoes.push(this.fb.group(Object.assign(acao, { resgatar: 0 })))
     });
   }
