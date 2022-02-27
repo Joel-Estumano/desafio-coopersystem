@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item" *ngFor="let acao of getControls(); let i = index">
+                                <li class="list-group-item" *ngFor="let acao of getControls(); let i = index" formArrayName="acoes">
                                     <div class="row align-items-start mt-1 mb-1">
                                         <div class="col">
                                             <h6 class="card-text fw-normal">{{acao.value.nome}}</h6>
@@ -60,11 +60,9 @@
                                         <div class="col">
                                             <h6 class="card-text fw-normal">{{ calcSaldoAcumul(acao.value.percentual) | currency : 'R$'}}</h6>
                                         </div>
-                                        <div class="col">
-                                            <input type="text" class="form-control form-control-sm" placeholder="Digite quanto quer resgatar" currencyMask>
-                                            <span class="invalid-feedback">
-                                        O valor a resgatar não pode ser maior que {{0 | currency : 'R$'}}
-                                    </span>
+                                        <div class="col" [formGroupName]="i">
+                                            <input type="text" formControlName="resgatar" class="form-control form-control-sm" placeholder="Digite quanto quer resgatar" currencyMask>
+                                            <span class="invalid-feedback"> O valor a resgatar não pode ser maior que {{ 0 | currency : 'R$'}}</span>
                                         </div>
                                     </div>
                                 </li>
@@ -74,7 +72,6 @@
                     <div class="card mt-4">
                         <div class="card-body px-4 py-2 d-flex justify-content-between">
                             <p class="card-text fw-bolder">Valor total do resgate: <span class="fw-normal">{{ 0 | currency : 'R$' }}</span></p>
-                            <p class="card-text fw-bolder p-2 bg-info rounded">Form: <span class="fw-normal">{{ form.value | json }}</span></p>
                         </div>
                     </div>
                     <div class="d-grid gap-0 d-md-flex justify-content-md-end mt-4">
@@ -82,6 +79,9 @@
                         <button class="btn btn-primary btn-sm text-uppercase" type="button">confirmar resgate</button>
                     </div>
                 </form>
+
+                <p class="card-text fw-bolder p-2 mt-4 bg-info rounded">Form: <span class="fw-normal">{{ form.value | json }}</span></p>
+
             </div>
         </div>
     </div>

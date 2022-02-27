@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resgate-personalisado',
@@ -12,8 +12,7 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
   public data: any;
   public form: FormGroup;
 
-  constructor(private readonly route: ActivatedRoute,
-    private readonly router: Router,
+  constructor(private readonly router: Router,
     private readonly fb: FormBuilder) {
 
     this.form = this.fb.group({
@@ -25,16 +24,16 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
     });
 
     if (this.router.getCurrentNavigation() != null) {
-      const currentState = this.router.getCurrentNavigation()?.extras?.state;
+      const currentState = this.router.getCurrentNavigation()?.extras?.state
       if (!currentState?.['data']) {
-        this.goToLista();
+        this.goToLista()
       }
-      this.data = currentState?.['data'];
+      this.data = currentState?.['data']
     }
   }
 
   ngOnInit(): void {
-    this.loadAcoes();
+    this.loadAcoes()
   }
 
   ngAfterViewInit() {
@@ -43,32 +42,32 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
 
   loadAcoes() {
     this.form.patchValue(this.data)
-    this.addAcoes();
+    this.addAcoes()
   }
 
   calcSaldoAcumul(percentual: number) {
-    return percentual * this.data.saldoTotal / 100;
+    return percentual * this.data.saldoTotal / 100
   }
 
-  goToResgatar(acao: any) {
+  goToResgatar(acao?: any) {
     console.log(acao)
   }
 
   goToLista() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/'])
   }
 
   addAcoes() {
     this.data.acoes.forEach((acao: any) => {
-      this.getFormArrayAcoes.push(this.fb.group(Object.assign(acao, { resgatar: 0 })))
+      this.getFormArrayAcoes.push(this.fb.group(Object.assign(acao, { resgatar: null })))
     });
   }
 
   get getFormArrayAcoes(): FormArray {
-    return this.form.get('acoes') as FormArray;
+    return this.form.get('acoes') as FormArray
   }
 
   getControls() {
-    return (this.form.get('acoes') as FormArray).controls;
+    return (this.form.get('acoes') as FormArray).controls
   }
 }
