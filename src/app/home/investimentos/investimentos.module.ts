@@ -8,8 +8,7 @@ import { NgxCurrencyModule } from 'ngx-currency';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'list' },
-  { path: 'list', component: InvestimentosListComponent },
+  { path: '', component: InvestimentosListComponent },
   { path: 'resgate', component: ResgatePersonalisadoComponent }
 ]
 

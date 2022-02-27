@@ -55,7 +55,7 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
   }
 
   goToLista() {
-    this.router.navigate(['/list']);
+    this.router.navigate(['/']);
   }
 
   addAcoes() {
