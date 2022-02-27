@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ValidatorsCustom } from 'src/app/core/services/validators-custom.service';
 
 @Component({
   selector: 'app-resgate-personalisado',
@@ -13,13 +14,14 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
   public form: FormGroup;
 
   constructor(private readonly router: Router,
-    private readonly fb: FormBuilder) {
+    private readonly fb: FormBuilder,
+    public readonly validatorsCustom: ValidatorsCustom) {
 
     this.form = this.fb.group({
       indicadorCarencia: [null, Validators.required],
       nome: [null, Validators.required],
       objetivo: [null, Validators.required],
-      acoes: this.fb.array([]),
+      acoes: this.fb.array([], [Validators.required]),
       saldoTotal: [null, Validators.required]
     });
 
@@ -33,16 +35,16 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.loadAcoes()
+    this.loadForm()
   }
 
   ngAfterViewInit() {
     console.log(this.getFormArrayAcoes)
   }
 
-  loadAcoes() {
+  loadForm() {
     this.form.patchValue(this.data)
-    this.addAcoes()
+    this.addFormAcoes()
   }
 
   calcSaldoAcumul(percentual: number) {
@@ -50,16 +52,22 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
   }
 
   goToResgatar(acao?: any) {
-    console.log(acao)
+    /* console.log(acao) */
   }
 
   goToLista() {
     this.router.navigate(['/'])
   }
 
-  addAcoes() {
+  addFormAcoes() {
     this.data.acoes.forEach((acao: any) => {
-      this.getFormArrayAcoes.push(this.fb.group(Object.assign(acao, { resgatar: null })))
+      const acaoControl = new FormGroup({
+        id: new FormControl(acao.id, [Validators.required]),
+        nome: new FormControl(acao.nome, [Validators.required]),
+        percentual: new FormControl(acao.percentual, [Validators.required]),
+        resgatar: new FormControl(null, [ValidatorsCustom.allowsToRedeem(this.calcSaldoAcumul(acao.percentual)).bind(this)])
+      })
+      this.getFormArrayAcoes.push(acaoControl)
     });
   }
 
