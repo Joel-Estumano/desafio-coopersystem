@@ -15,7 +15,7 @@ export class ValidatorsCustom {
       if (!value) {
         return null;
       }
-      if (isNaN(value) || value > saldoAcumulado) {
+      if (isNaN(value) || value > saldoAcumulado.toFixed(2)) {
         return { 'NaN': true };
       }
       return null;
