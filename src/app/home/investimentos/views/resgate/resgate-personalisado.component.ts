@@ -80,7 +80,7 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
     return (this.form.get('acoes') as FormArray).controls
   }
 
-  updatetotalDoResgate() {
+  updateTotalDoResgate() {
     const total = this.getControls().reduce(
       (soma, atual) => soma + atual.value.resgatar, 0
     );
