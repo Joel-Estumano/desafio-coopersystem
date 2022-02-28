@@ -22,7 +22,8 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
       nome: [null, Validators.required],
       objetivo: [null, Validators.required],
       acoes: this.fb.array([], [Validators.required]),
-      saldoTotal: [null, Validators.required]
+      saldoTotal: [null, Validators.required],
+      totalDoResgate: [null]
     });
 
     if (this.router.getCurrentNavigation() != null) {
@@ -77,5 +78,13 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
 
   getControls() {
     return (this.form.get('acoes') as FormArray).controls
+  }
+
+  updatetotalDoResgate() {
+    const total = this.getControls().reduce(
+      (soma, atual) => soma + atual.value.resgatar, 0
+    );
+    console.log(total)
+    this.form.patchValue({ 'totalDoResgate': total.toFixed(2) })
   }
 }
