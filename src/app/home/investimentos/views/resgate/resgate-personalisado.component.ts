@@ -10,7 +10,7 @@ import { ValidatorsCustom } from 'src/app/core/services/validators-custom.servic
 })
 export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
 
-  public data: any;
+  public data: any = null;
   public form: FormGroup;
 
   constructor(private readonly router: Router,
@@ -61,15 +61,17 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
   }
 
   addFormAcoes() {
-    this.data.acoes.forEach((acao: any) => {
-      const acaoControl = new FormGroup({
-        id: new FormControl(acao.id, [Validators.required]),
-        nome: new FormControl(acao.nome, [Validators.required]),
-        percentual: new FormControl(acao.percentual, [Validators.required]),
-        resgatar: new FormControl(null, [ValidatorsCustom.allowsToRedeem(this.calcSaldoAcumul(acao.percentual)).bind(this)])
-      })
-      this.getFormArrayAcoes.push(acaoControl)
-    });
+    if (this.data) {
+      this.data.acoes.forEach((acao: any) => {
+        const acaoControl = new FormGroup({
+          id: new FormControl(acao.id, [Validators.required]),
+          nome: new FormControl(acao.nome, [Validators.required]),
+          percentual: new FormControl(acao.percentual, [Validators.required]),
+          resgatar: new FormControl(null, [ValidatorsCustom.allowsToRedeem(this.calcSaldoAcumul(acao.percentual)).bind(this)])
+        })
+        this.getFormArrayAcoes.push(acaoControl)
+      });
+    }
   }
 
   get getFormArrayAcoes(): FormArray {
@@ -82,7 +84,7 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
 
   updateTotalDoResgate() {
     const total = this.getControls().reduce(
-      (soma, atual) => soma + atual.value.resgatar, 0
+      (soma, item) => soma + item.value.resgatar, 0
     );
     console.log(total)
     this.form.patchValue({ 'totalDoResgate': total.toFixed(2) })

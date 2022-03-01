@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="col" [formGroupName]="i">
                                             <!-- <input type="text" formControlName="resgatar" class="form-control form-control-sm" placeholder="Digite quanto quer resgatar" currencyMask [ngClass]="validatorsCustom.applyValidationCustomClass(i,form.get('acoes'))"> -->
-                                            <input type="text" formControlName="resgatar" class="form-control form-control-sm" placeholder="Digite quanto quer resgatar" currencyMask [ngClass]="validatorsCustom.applyValidationCustomClass(i,getControls())" (keyup)="updateTotalDoResgate()">
+                                            <input type="text" formControlName="resgatar" class="form-control form-control-sm" placeholder="Digite quanto quer resgatar" currencyMask [ngClass]="validatorsCustom.applyValidationCustomClass(i,getControls())" (ngModelChange)="updateTotalDoResgate()">
                                             <span class="invalid-feedback"> O valor a resgatar não pode ser maior que {{ calcSaldoAcumul(acao.value.percentual) | currency : 'R$'}}</span>
                                         </div>
                                     </div>
