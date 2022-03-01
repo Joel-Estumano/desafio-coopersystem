@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { ValidatorsCustom } from 'src/app/core/services/validators-custom.service';
 
 @Component({
@@ -8,14 +9,15 @@ import { ValidatorsCustom } from 'src/app/core/services/validators-custom.servic
   templateUrl: './resgate-personalisado.component.html',
   styleUrls: ['./resgate-personalisado.component.scss']
 })
-export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
+export class ResgatePersonalisadoComponent implements OnInit {
 
   public data: any = null;
   public form: FormGroup;
 
   constructor(private readonly router: Router,
     private readonly fb: FormBuilder,
-    public readonly validatorsCustom: ValidatorsCustom) {
+    public readonly validatorsCustom: ValidatorsCustom,
+    private readonly alertService: AlertService) {
 
     this.form = this.fb.group({
       indicadorCarencia: [null, Validators.required],
@@ -39,10 +41,6 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
     this.loadForm()
   }
 
-  ngAfterViewInit() {
-    console.log(this.getFormArrayAcoes)
-  }
-
   loadForm() {
     this.form.patchValue(this.data)
     this.addFormAcoes()
@@ -53,7 +51,7 @@ export class ResgatePersonalisadoComponent implements OnInit, AfterViewInit {
   }
 
   goToResgatar(acao?: any) {
-    /* console.log(acao) */
+    this.alertService.success('confirmar resgate', true);
   }
 
   goToLista() {

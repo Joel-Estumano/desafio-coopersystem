@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ResgatePersonalisadoComponent } from './views/resgate/resgate-personalisado.component';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   { path: '', component: InvestimentosListComponent },
@@ -22,7 +23,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgxCurrencyModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [InvestimentoService]
 })
