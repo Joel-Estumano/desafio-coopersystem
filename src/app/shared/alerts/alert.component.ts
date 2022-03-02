@@ -27,8 +27,7 @@ export class AlertComponent implements OnInit {
     this.subscription = this.alertService.getAlert().subscribe(message => {
       switch (message && message.type) {
         case 'success':
-          /*  this.showSuccess() */
-          this.showError()
+          this.showSuccess()
           break;
         case 'error':
           this.showError()
@@ -54,10 +53,11 @@ export class AlertComponent implements OnInit {
   }
 
   showSuccess() {
-    this.bsModalRef = this.modalService.show(SuccessComponent)
+    this.bsModalRef = this.modalService.show(SuccessComponent, { class: 'modal-dialog modal-dialog-centered modal-dialog modal-lg' })
+    this.bsModalRef.content.closeBtnName = 'Close'
   }
 
   showError() {
-    this.bsModalRef = this.modalService.show(ErrorComponent)
+    this.bsModalRef = this.modalService.show(ErrorComponent, { class: 'modal-dialog modal-dialog-centered modal-dialog modal-lg' })
   }
 }
