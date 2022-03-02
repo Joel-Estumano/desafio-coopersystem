@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/services/alert.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { SuccessComponent } from './success/success.component';
+import { ErrorComponent } from './error/error.component';
 
 @Component({
   selector: 'app-alert',
@@ -10,13 +12,14 @@ import { AlertService } from 'src/app/core/services/alert.service';
 })
 export class AlertComponent implements OnInit {
 
-  @ViewChild('mymodal') mymodal: any;
-
+  public modalRef?: BsModalRef;
   private subscription: Subscription;
   private message: any;
 
   constructor(private alertService: AlertService,
-    private modalService: NgbModal) {
+    private modalService: BsModalService,
+    public bsModalRef: BsModalRef) {
+
     this.subscription = new Subscription();
   }
 
@@ -24,10 +27,11 @@ export class AlertComponent implements OnInit {
     this.subscription = this.alertService.getAlert().subscribe(message => {
       switch (message && message.type) {
         case 'success':
-          this.openModalSuccess(message.text)
+          /*  this.showSuccess() */
+          this.showError()
           break;
         case 'error':
-
+          this.showError()
           break;
         case 'confirmDelete':
 
@@ -49,28 +53,11 @@ export class AlertComponent implements OnInit {
     }
   }
 
-  openModalSuccess(message: string) {
-    this.open(this.mymodal)
+  showSuccess() {
+    this.bsModalRef = this.modalService.show(SuccessComponent)
   }
 
-
-  closeResult: string | null = null;
-
-  open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  showError() {
+    this.bsModalRef = this.modalService.show(ErrorComponent)
   }
 }
