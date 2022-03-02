@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { InvestimentoService } from '../../services/investimento.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class InvestimentosListComponent implements OnInit {
   }
 
   loadInvestimentos() {
-    this.investimentos$ = this.investimentoService.get()
+    this.investimentos$ = this.investimentoService.get().pipe(tap(console.log));
   }
 
   goToResgatePersonalizado(investimento: any) {
