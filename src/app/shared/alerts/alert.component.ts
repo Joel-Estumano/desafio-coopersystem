@@ -54,7 +54,6 @@ export class AlertComponent implements OnInit {
 
   showSuccess() {
     this.bsModalRef = this.modalService.show(SuccessComponent, { class: 'modal-dialog modal-dialog-centered modal-dialog modal-lg' })
-    this.bsModalRef.content.closeBtnName = 'Close'
   }
 
   showError() {
