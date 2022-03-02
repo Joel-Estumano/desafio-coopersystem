@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/services/alert.service';
 
@@ -8,10 +9,14 @@ import { AlertService } from 'src/app/core/services/alert.service';
   styleUrls: ['./alert.component.scss']
 })
 export class AlertComponent implements OnInit {
+
+  @ViewChild('mymodal') mymodal: any;
+
   private subscription: Subscription;
   private message: any;
 
-  constructor(private alertService: AlertService) {
+  constructor(private alertService: AlertService,
+    private modalService: NgbModal) {
     this.subscription = new Subscription();
   }
 
@@ -45,6 +50,27 @@ export class AlertComponent implements OnInit {
   }
 
   openModalSuccess(message: string) {
-    alert('[' + message.toUpperCase() + '] - Esta função está em manutenção...')
+    this.open(this.mymodal)
+  }
+
+
+  closeResult: string | null = null;
+
+  open(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

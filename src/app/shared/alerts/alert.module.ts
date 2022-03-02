@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AlertComponent } from './alert.component';
 import { SuccessComponent } from './success/success.component';
 import { ErrorComponent } from './error/error.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ErrorComponent } from './error/error.component';
     ErrorComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgbModule
   ],
   exports: [AlertComponent,
     SuccessComponent,
