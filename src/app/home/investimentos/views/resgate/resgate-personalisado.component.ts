@@ -84,7 +84,6 @@ export class ResgatePersonalisadoComponent implements OnInit {
     const total = this.getControls().reduce(
       (soma, item) => soma + item.value.resgatar, 0
     );
-    console.log(total)
     this.form.patchValue({ 'totalDoResgate': total.toFixed(2) })
   }
 }
