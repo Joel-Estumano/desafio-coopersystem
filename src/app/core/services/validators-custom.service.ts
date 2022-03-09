@@ -28,7 +28,9 @@ export class ValidatorsCustom {
     }
     return {
       'is-invalid': this.isFormArrayFieldValid(index, form),
-      'has-valid': !this.isFormArrayFieldValid(index, form)
+      'has-valid': !this.isFormArrayFieldValid(index, form),
+      /*  */
+      /* 'btn-outline-danger':  this.isFormArrayFieldValid(index, form), */
     }
   }
 
