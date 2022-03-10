@@ -51,7 +51,11 @@ export class ResgatePersonalisadoComponent implements OnInit {
   }
 
   goToResgatar(acao?: any) {
-    this.alertService.success('confirmar resgate', true);
+    if (!this.verify(acao)) {
+      this.alertService.success('Sucesso!', true);
+    } else {
+      this.alertService.error('Erro!', true);
+    }
   }
 
   goToLista() {
@@ -85,5 +89,9 @@ export class ResgatePersonalisadoComponent implements OnInit {
       (soma, item) => soma + item.value.resgatar, 0
     );
     this.form.patchValue({ 'totalDoResgate': total.toFixed(2) })
+  }
+
+  private verify(value: any): boolean {
+    return true;
   }
 }
