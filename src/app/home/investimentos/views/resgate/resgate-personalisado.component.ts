@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { ValidatorsCustom } from 'src/app/core/services/validators-custom.service';
+import { Investimento } from '../../interfaces/invetimento.interface';
 
 @Component({
   selector: 'app-resgate-personalisado',
@@ -11,7 +12,7 @@ import { ValidatorsCustom } from 'src/app/core/services/validators-custom.servic
 })
 export class ResgatePersonalisadoComponent implements OnInit {
 
-  public data: any = null;
+  public investimento: Investimento = new Investimento();
   public form: FormGroup;
 
   constructor(private readonly router: Router,
@@ -19,39 +20,26 @@ export class ResgatePersonalisadoComponent implements OnInit {
     public readonly validatorsCustom: ValidatorsCustom,
     private readonly alertService: AlertService) {
 
-    this.form = this.fb.group({
-      indicadorCarencia: [null, Validators.required],
-      nome: [null, Validators.required],
-      objetivo: [null, Validators.required],
-      acoes: this.fb.array([], [Validators.required]),
-      saldoTotal: [null, Validators.required],
-      totalDoResgate: [null]
-    });
-
     if (this.router.getCurrentNavigation() != null) {
       const currentState = this.router.getCurrentNavigation()?.extras?.state
       if (!currentState?.['data']) {
         this.goToLista()
       }
-      this.data = currentState?.['data']
+      this.investimento.fromObject(currentState?.['data']);
     }
+    this.form = this.fb.group(this.investimento.createForm());
   }
 
   ngOnInit(): void {
-    this.loadForm()
-  }
-
-  loadForm() {
-    this.form.patchValue(this.data)
-    this.addFormAcoes()
+    this.loadFormAcoes()
   }
 
   calcSaldoAcumul(percentual: number) {
-    return percentual * this.data.saldoTotal / 100
+    return percentual * this.investimento.saldoTotal / 100
   }
 
-  goToResgatar(acao?: any) {
-    if (!this.verify(acao)) {
+  goToResgatar() {
+    if (this.form.valid) {
       this.alertService.success('Sucesso!', true);
     } else {
       this.alertService.error('Erro!', true);
@@ -62,13 +50,13 @@ export class ResgatePersonalisadoComponent implements OnInit {
     this.router.navigate(['/'])
   }
 
-  addFormAcoes() {
-    if (this.data) {
-      this.data.acoes.forEach((acao: any) => {
+  private loadFormAcoes() {
+    if (this.investimento) {
+      this.investimento.acoes.forEach((acao: any) => {
         const acaoControl = new FormGroup({
-          id: new FormControl(acao.id, [Validators.required]),
-          nome: new FormControl(acao.nome, [Validators.required]),
-          percentual: new FormControl(acao.percentual, [Validators.required]),
+          id: new FormControl(acao.id),
+          nome: new FormControl(acao.nome),
+          percentual: new FormControl(acao.percentual),
           resgatar: new FormControl(null, [ValidatorsCustom.allowsToRedeem(this.calcSaldoAcumul(acao.percentual)).bind(this)])
         })
         this.getFormArrayAcoes.push(acaoControl)
@@ -89,9 +77,5 @@ export class ResgatePersonalisadoComponent implements OnInit {
       (soma, item) => soma + item.value.resgatar, 0
     );
     this.form.patchValue({ 'totalDoResgate': total.toFixed(2) })
-  }
-
-  private verify(value: any): boolean {
-    return true;
   }
 }
