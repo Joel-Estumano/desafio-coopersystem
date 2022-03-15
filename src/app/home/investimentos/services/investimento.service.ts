@@ -16,6 +16,6 @@ export class InvestimentoService {
   }
 
   private getData(response: any) {
-    return response.response.data.listaInvestimentos || {};
+    return response.response.data.listaInvestimentos || [];
   }
 }

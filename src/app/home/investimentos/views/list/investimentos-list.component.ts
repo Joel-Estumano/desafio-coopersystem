@@ -10,7 +10,7 @@ import { InvestimentoService } from '../../services/investimento.service';
 })
 export class InvestimentosListComponent implements OnInit {
 
-  public investimentos$: Observable<any>
+  public investimentos$: Observable<any[]>
 
   constructor(private readonly investimentoService: InvestimentoService,
     private readonly router: Router) {
