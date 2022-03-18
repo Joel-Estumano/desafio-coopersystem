@@ -32,7 +32,7 @@ export class InvestimentosListComponent implements OnInit {
           data: investimento
         }
       }
-      this.router.navigate(['/resgate'], navigationExtras)
+      this.router.navigate(['/invetimentos/resgate'], navigationExtras)
     }
   }
 }

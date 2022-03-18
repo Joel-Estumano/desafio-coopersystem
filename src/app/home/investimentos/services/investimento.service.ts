@@ -5,10 +5,12 @@ import { HttpService } from 'src/app/core/services/http.service';
 @Injectable()
 export class InvestimentoService {
 
+  private id = 'ca4ec77d-b941-4477-8a7f-95d4daf7a653'
+
   constructor(private httpService: HttpService) { }
 
   public get(): Observable<any> {
-    return this.httpService.get().pipe(
+    return this.httpService.getData(this.id).pipe(
       map(response => {
         return this.getData(response)
       })

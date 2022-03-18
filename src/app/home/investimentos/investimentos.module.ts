@@ -9,7 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
-  { path: '', component: InvestimentosListComponent },
+  { path: '', redirectTo: 'list' },
+  { path: 'list', component: InvestimentosListComponent },
   { path: 'resgate', component: ResgatePersonalisadoComponent }
 ]
 

@@ -47,7 +47,7 @@ export class ResgatePersonalisadoComponent implements OnInit {
   }
 
   goToLista() {
-    this.router.navigate(['/'])
+    this.router.navigate(['/invetimentos/list'])
   }
 
   private loadFormAcoes() {
