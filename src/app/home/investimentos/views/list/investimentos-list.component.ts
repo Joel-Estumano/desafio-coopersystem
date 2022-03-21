@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { Investimento } from '../../interfaces/invetimento.interface';
 import { InvestimentoService } from '../../services/investimento.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { InvestimentoService } from '../../services/investimento.service';
 })
 export class InvestimentosListComponent implements OnInit {
 
-  public investimentos$: Observable<any[]>
+  public investimentos$: Observable<Investimento[]>
 
   constructor(private readonly investimentoService: InvestimentoService,
     private readonly router: Router) {
@@ -25,7 +26,7 @@ export class InvestimentosListComponent implements OnInit {
     this.investimentos$ = this.investimentoService.get().pipe(tap(console.log));
   }
 
-  goToResgatePersonalizado(investimento: any) {
+  goToResgatePersonalizado(investimento: Investimento) {
     if (investimento.indicadorCarencia === 'N') {
       const navigationExtras: NavigationExtras = {
         state: {

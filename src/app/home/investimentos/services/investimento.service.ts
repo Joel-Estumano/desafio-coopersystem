@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpService } from 'src/app/core/services/http.service';
+import { Investimento } from '../interfaces/invetimento.interface';
 
 @Injectable()
 export class InvestimentoService {
@@ -9,7 +10,7 @@ export class InvestimentoService {
 
   constructor(private httpService: HttpService) { }
 
-  public get(): Observable<any> {
+  public get(): Observable<Investimento> {
     return this.httpService.getData(this.id).pipe(
       map(response => {
         return this.getData(response)
