@@ -14,7 +14,6 @@ export class AlertComponent implements OnInit {
 
   public modalRef?: BsModalRef;
   private subscription: Subscription;
-  private message: any;
 
   constructor(private alertService: AlertService,
     private modalService: BsModalService,
@@ -24,13 +23,13 @@ export class AlertComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.alertService.getAlert().subscribe(message => {
-      switch (message && message.type) {
+    this.subscription = this.alertService.getAlert().subscribe(alert => {
+      switch (alert && alert.type) {
         case 'success':
-          this.showSuccess()
+          this.showSuccess(alert)
           break;
         case 'error':
-          this.showError()
+          this.showError(alert)
           break;
         case 'confirmDelete':
 
@@ -42,7 +41,6 @@ export class AlertComponent implements OnInit {
 
           break;
       }
-      this.message = message;
     })
   }
 
@@ -52,11 +50,14 @@ export class AlertComponent implements OnInit {
     }
   }
 
-  showSuccess() {
+  showSuccess(alert: any) {
+    console.log(alert)
     this.bsModalRef = this.modalService.show(SuccessComponent, { class: 'modal-dialog modal-dialog-centered modal-dialog modal-lg' })
   }
 
-  showError() {
+  showError(alert: any) {
+    console.log(alert)
     this.bsModalRef = this.modalService.show(ErrorComponent, { class: 'modal-dialog modal-dialog-centered modal-dialog modal-lg' })
+    this.bsModalRef.content.erros = alert.erros
   }
 }

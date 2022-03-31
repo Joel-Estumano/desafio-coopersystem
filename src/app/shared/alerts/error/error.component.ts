@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -7,6 +7,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent implements OnInit {
+
+  @Input() erros: any[] = [];
 
   constructor(public bsModalRef: BsModalRef) { }
 

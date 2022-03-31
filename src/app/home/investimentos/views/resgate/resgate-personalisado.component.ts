@@ -38,11 +38,11 @@ export class ResgatePersonalisadoComponent implements OnInit {
     return percentual * this.investimento.saldoTotal / 100
   }
 
-  goToResgatar() {
+  onSubmit() {
     if (this.form.valid) {
-      this.alertService.success('Sucesso!', true);
+      this.alertService.success('Sucesso Sucesso Sucesso!', true);
     } else {
-      this.alertService.error('Erro!', true);
+      this.alertService.error('Erro Erro Erro!', ['teste1, teste2'], true);
     }
   }
 

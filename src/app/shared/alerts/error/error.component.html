@@ -4,6 +4,11 @@
     </div>
     <div class="modal-body mx-auto">
         <h5 class="modal-title font-weight-normal text-uppercase">Dados inválidos!</h5>
+
+        <div *ngFor="let erro of erros; index as i">
+            {{erro}}
+        </div>
+
     </div>
     <div class="modal-footer mx-auto mb-2 border-0">
         <div class="border-modify btn-outline-primary">
