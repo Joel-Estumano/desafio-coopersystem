@@ -6,7 +6,6 @@ const routes: Routes = [
 	{
 		path: '', component: HomeComponent,
 		children: [
-			{ path: '', redirectTo: 'invetimentos' },
 			{ path: 'invetimentos', loadChildren: () => import('./investimentos/investimentos.module').then(m => m.InvestimentosModule) }
 		]
 	}

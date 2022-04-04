@@ -1,14 +1,9 @@
 <div class="container-fluid no-gutters h-100 p-0">
-    <div class="row no-gutters h-100">
+    <div class="form-row no-gutters h-100">
         <div class="col">
-            <div class="p-4 border bg-light">
+            <div class="col-modify border bg-light">
                 <h4 class="font-weight-normal text-uppercase">investimentos</h4>
-                <div class="clearfix" *ngIf="load">
-                    <div class="spinner-border float-end" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-                <div class="card mt-4" *ngIf="!load">
+                <div class="card mt-4" *ngIf="investimentos$ | async as investimentos; else loading">
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
@@ -24,8 +19,9 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="list-group-item" *ngFor="let investimento of listaInvestimentos; index as i;">
-                                <div class="row align-items-start mt-1 mb-1" role="button" data-bs-toggle="tooltip" title="Click para ver detalhes do {{investimento.nome}}" (click)="goToResgatePersonalizado(investimento)">
+                            <li class="list-group-item" *ngFor="let investimento of investimentos; index as i;">
+                                <div class="row align-items-start mt-1 mb-1" [ngClass]="{'text-muted': investimento.indicadorCarencia === 'N' ? false : true }" [ngStyle]="{'cursor': investimento.indicadorCarencia === 'N' ? 'pointer' : 'default' }" [attr.title]="investimento.indicadorCarencia === 'N' ? 'Click para ver detalhes do ' + investimento.nome : null "
+                                    data-bs-toggle="tooltip" (click)="goToResgatePersonalizado(investimento)">
                                     <div class="col">
                                         <h6 class="card-text fw-normal">{{investimento.nome}}</h6>
                                     </div>
@@ -40,6 +36,12 @@
                         </ul>
                     </div>
                 </div>
+                <ng-template #loading>
+                    <div class="d-flex align-items-center">
+                        <p class="fw-normal">Loading...</p>
+                        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>

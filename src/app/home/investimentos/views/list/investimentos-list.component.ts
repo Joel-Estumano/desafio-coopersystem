@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
+import { Investimento } from '../../interfaces/invetimento.interface';
 import { InvestimentoService } from '../../services/investimento.service';
 
 @Component({
@@ -9,33 +11,29 @@ import { InvestimentoService } from '../../services/investimento.service';
 })
 export class InvestimentosListComponent implements OnInit {
 
-  public listaInvestimentos: any;
-  public load = true;
+  public investimentos$: Observable<Investimento[]>
 
   constructor(private readonly investimentoService: InvestimentoService,
-    private readonly router: Router) { }
+    private readonly router: Router) {
+    this.investimentos$ = new Observable()
+  }
 
   ngOnInit(): void {
-    this.loadInvestimentos();
+    this.loadInvestimentos()
   }
 
   loadInvestimentos() {
-    this.investimentoService.get().subscribe(res => {
-      if (res.response.status == '200') {
-        this.listaInvestimentos = res.response.data.listaInvestimentos;
-        this.load = false;
-      } else {
-        console.log('failed to retrieve data')
-      }
-    });
+    this.investimentos$ = this.investimentoService.get().pipe(tap(console.log));
   }
 
-  goToResgatePersonalizado(investimento: any) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        model: investimento,
-      },
-    };
-    this.router.navigate(['/resgate'], navigationExtras);
+  goToResgatePersonalizado(investimento: Investimento) {
+    if (investimento.indicadorCarencia === 'N') {
+      const navigationExtras: NavigationExtras = {
+        state: {
+          data: investimento
+        }
+      }
+      this.router.navigate(['/invetimentos/resgate'], navigationExtras)
+    }
   }
 }

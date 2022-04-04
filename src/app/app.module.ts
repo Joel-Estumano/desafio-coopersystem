@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+/*  */
 import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { CurrencyMaskConfig, CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
+import { ModalModule } from 'ngx-bootstrap/modal';
 registerLocaleData(localePt, 'pt-BR');
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -30,7 +32,8 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
+    ModalModule.forRoot()
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },

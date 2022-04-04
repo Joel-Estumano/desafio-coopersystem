@@ -1,0 +1,23 @@
+<div class="modal-content p-0">
+    <div class="modal-header border-0">
+        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" (click)="onClose()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <h5 class="modal-title font-weight-normal text-uppercase text-center">Dados inválidos!</h5>
+
+        <p class="text-center">Você preencheu um ou mais campos com valor acima do permitido:</p>
+
+        <ul class="list-group list-group-flush" *ngFor="let erro of erros; index as i">
+            <li class="d-grid gap-1 d-md-flex justify-content-md-center mt-0 p-0">
+                <span class="fw-bold">{{erro.nome}}: </span>
+                <span class="ms-1">O valor a resgatar não pode ser maior que {{erro.limite | currency: 'R$'}}</span>
+            </li>
+        </ul>
+
+    </div>
+    <div class="modal-footer mx-auto mb-2 border-0">
+        <div class="border-modify btn-outline-primary">
+            <button class="btn btn-primary btn-sm text-uppercase" type="button" (click)="onClose()">corrigir</button>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -10,11 +10,11 @@ export class HttpService {
     private readonly apiURL: string;
 
     constructor(private httpClient: HttpClient) {
-        this.apiURL = 'https://run.mocky.io/v3/ca4ec77d-b941-4477-8a7f-95d4daf7a653';
+        this.apiURL = 'https://run.mocky.io/v3/';
     }
 
-    public get(): Observable<any[]> {
-        return this.httpClient.get<any[]>(this.apiURL, {
+    public getData(url: string): Observable<any[]> {
+        return this.httpClient.get<any[]>(this.apiURL + url, {
             headers: { 'Content-Type': 'application/json' }
         }).pipe(
             catchError(this.handleError<any[]>('get', []))

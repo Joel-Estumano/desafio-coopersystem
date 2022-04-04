@@ -1,70 +1,32 @@
 import { Injectable } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { AlertService } from './alert.service';
+import { AbstractControl, FormArray, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidatorsCustom {
 
-  constructor(private readonly alertService: AlertService) { }
-
-  static validatorNumberAboveZero(control: FormControl): { [s: string]: boolean } | null {
-    //revisado para refletir nulo como um valor aceitável
-    if (control.value === null) { return null; }
-    if (isNaN(control.value)) {
-      return { 'NaN': true };
-    }
-    if (control.value == 0) {
-      return { 'NaN': true };
-    }
-    return null;
-  }
-  /**
-   * 
-   * @param form Formulário a ser verificado quando da existência de campo ou campos inválido(s) conforme especificação prevista de validação.
-   * @returns true ou false
-   */
-  public isValidForm(form: FormGroup): boolean {
-    if (!form.valid) {
-      Object.keys(form.controls).forEach(field => {
-        const f = form.get(field);
-        if (f) {
-          f.markAsDirty();
-        }
-        this.findInvalidControls(form).forEach(item => {
-          if (item === field) {
-            alert('O campo ' + item + ' deve ser preenchido corretamente!');
-          }
-        });
-      });
-    }
-    return form.valid;
-  }
-
-  public isValidForms(...forms: FormGroup[]): any {
-    let invalidsControls: string[] = [];
-    forms.forEach(form => {
-      if (!form.valid) {
-        Object.keys(form.controls).forEach(control => {
-          const f = form.get(control);
-          if (f) {
-            f.markAsDirty();
-            invalidsControls.push(control);
-          }
-        });
+  static allowsToRedeem(saldoAcumulado: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value) {
+        return null;
       }
-    })
-    if (invalidsControls.length > 0) {
-      this.alertService.showWrong();
-      return false;
-    } else {
-      return true;
+      if (isNaN(value) || value > saldoAcumulado.toFixed(2)) {
+        return { 'NaN': true };
+      }
+      return null;
     }
   }
 
-  public applyCssError(form: FormGroup, field: string) {
-    return { /*não meixa aqui tio! */
+  public applyInvalidCustomClass(form: FormGroup, field: string, classCustom: string) {
+    const classe = '{"' + classCustom + '": ' + this.virifyValidTouched(form, field) + '}'
+    console.log(classe)
+    return JSON.parse(classe)
+  }
+
+  public applyInvalidClass(form: FormGroup, field: string) {
+    return {
       'is-invalid': this.virifyValidTouched(form, field),
       'has-feedback': this.virifyValidTouched(form, field)
     }
@@ -74,39 +36,20 @@ export class ValidatorsCustom {
     return !form.get(field).valid && (form.get(field).touched || form.get(field).dirty);
   }
 
-  private findInvalidControls(form: FormGroup): any[] {
-    const invalid = [];
-    const controls = form.controls;
-    for (const name in controls) {
-      if (controls[name].invalid) {
-        invalid.push(name);
-      }
+  public applyValidationCustomClass(index: number, form: any) {
+    if (!form.at(index)) {
+      throw new Error('There is no formControl in position: ' + index);
     }
-    return invalid;
+    return {
+      'is-invalid': this.isFormArrayFieldValid(index, form),
+      'has-valid': !this.isFormArrayFieldValid(index, form)
+    }
   }
 
-  /* 
-  Retorna uma lista de nomes de controls ou grupo inválidos ou uma lista de comprimento zero se
-   nenhum control ou grupo inválido for encontrado.
-*/
-  private findInvalidControlsRecursive(formToInvestigate: FormGroup | FormArray): string[] {
-    var invalidControls: string[] = [];
-    let recursiveFunc = (form: FormGroup | FormArray) => {
-      Object.keys(form.controls).forEach(field => {
-        const control = form.get(field);
-        if (control) {
-          if (control.invalid) {
-            invalidControls.push(field);
-          }
-        }
-        if (control instanceof FormGroup) {
-          recursiveFunc(control);
-        } else if (control instanceof FormArray) {
-          recursiveFunc(control);
-        }
-      });
+  public isFormArrayFieldValid(index: number, form: FormArray) {
+    if (!form.at(index)) {
+      throw new Error('There is no formControl in position: ' + index);
     }
-    recursiveFunc(formToInvestigate);
-    return invalidControls;
+    return !form.at(index).valid && (form.at(index).touched || form.at(index).dirty);
   }
 }
