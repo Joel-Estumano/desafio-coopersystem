@@ -42,7 +42,7 @@ export class ResgatePersonalisadoComponent implements OnInit {
     if (this.form.valid) {
       this.alertService.success('Sucesso Sucesso Sucesso!', true);
     } else {
-      this.alertService.error('Erro Erro Erro!', ['teste1, teste2'], true);
+      this.alertService.error('Erro Erro Erro!', this.gerControlsErros(), true);
     }
   }
 
@@ -77,5 +77,21 @@ export class ResgatePersonalisadoComponent implements OnInit {
       (soma, item) => soma + item.value.resgatar, 0
     );
     this.form.patchValue({ 'totalDoResgate': total.toFixed(2) })
+  }
+
+  gerControlsErros(): any[] {
+    let erros: any[] = []
+    let controls: any = this.getControls()
+    controls.forEach((element: any) => {
+      if (element.status === 'INVALID') {
+        let erro = {
+          nome: element.value.nome,
+          limite: this.calcSaldoAcumul(element.value.percentual)
+        }
+        erros.push(erro)
+      }
+      console.log(element)
+    });
+    return erros
   }
 }
