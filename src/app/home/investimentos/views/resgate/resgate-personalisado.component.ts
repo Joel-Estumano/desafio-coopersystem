@@ -41,7 +41,7 @@ export class ResgatePersonalisadoComponent implements OnInit {
   onSubmit() {
     if (this.nonEmptyForm()) {
       if (this.form.valid) {
-        this.alertService.success('Resgate efetuado com sucesso!', '', true);
+        this.alertService.success('Resgate efetuado com sucesso!', null, true);
       } else {
         this.alertService.error('Dados inválidos!', 'Você preencheu um ou mais campos com valor acima do permitido:', this.gerControlsErros(), true);
       }
