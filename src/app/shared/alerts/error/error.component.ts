@@ -8,6 +8,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class ErrorComponent implements OnInit {
 
+  @Input() title: string | null = null
+  @Input() message: string | null = null
   @Input() erros: any[] = [];
 
   constructor(public bsModalRef: BsModalRef) { }

@@ -3,9 +3,9 @@
         <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" (click)="onClose()" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <h5 class="modal-title font-weight-normal text-uppercase text-center">Dados inválidos!</h5>
+        <h5 class="modal-title font-weight-normal text-uppercase text-center">{{ title }}</h5>
 
-        <p class="text-center">Você preencheu um ou mais campos com valor acima do permitido:</p>
+        <p class="text-center">{{ message }}</p>
 
         <ul class="list-group list-group-flush" *ngFor="let erro of erros; index as i">
             <li class="d-grid gap-1 d-md-flex justify-content-md-center mt-0 p-0">
