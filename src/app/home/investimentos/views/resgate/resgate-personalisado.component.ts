@@ -42,6 +42,7 @@ export class ResgatePersonalisadoComponent implements OnInit {
     if (this.nonEmptyForm()) {
       if (this.form.valid) {
         this.alertService.success('Resgate efetuado com sucesso!', null, true);
+        this.resetFomr()
       } else {
         this.alertService.error('Dados inválidos!', 'Você preencheu um ou mais campos com valor acima do permitido:', this.gerControlsErros(), true);
       }
@@ -99,6 +100,12 @@ export class ResgatePersonalisadoComponent implements OnInit {
   private nonEmptyForm() {
     let controls: any = this.getControls()
     return controls.find((element: any) => element.value.resgatar !== null);
+  }
+
+  private resetFomr() {
+    this.getControls().forEach((element: any) => {
+      element.controls.resgatar.reset()
+    })
   }
 
 }
