@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -7,6 +7,9 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./success.component.scss']
 })
 export class SuccessComponent implements OnInit {
+
+  @Input() title: string | null = null
+  @Input() message: string | null = null
 
   constructor(public bsModalRef: BsModalRef) { }
 

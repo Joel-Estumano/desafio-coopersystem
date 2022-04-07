@@ -51,13 +51,15 @@ export class AlertComponent implements OnInit {
   }
 
   showSuccess(alert: any) {
-    console.log(alert)
     this.bsModalRef = this.modalService.show(SuccessComponent, { class: 'modal-dialog modal-dialog-centered modal-dialog modal-lg' })
+    this.bsModalRef.content.title = alert.title
+    this.bsModalRef.content.message = alert.message
   }
 
   showError(alert: any) {
-    console.log(alert)
     this.bsModalRef = this.modalService.show(ErrorComponent, { class: 'modal-dialog modal-dialog-centered modal-dialog modal-lg' })
+    this.bsModalRef.content.title = alert.title
+    this.bsModalRef.content.message = alert.message
     this.bsModalRef.content.erros = alert.erros
   }
 }
