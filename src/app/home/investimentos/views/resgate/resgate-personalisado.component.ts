@@ -39,10 +39,12 @@ export class ResgatePersonalisadoComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      this.alertService.success('Sucesso Sucesso Sucesso!', true);
-    } else {
-      this.alertService.error('Erro Erro Erro!', this.gerControlsErros(), true);
+    if (this.nonEmptyForm()) {
+      if (this.form.valid) {
+        this.alertService.success('Sucesso Sucesso Sucesso!', true);
+      } else {
+        this.alertService.error('Erro Erro Erro!', this.gerControlsErros(), true);
+      }
     }
   }
 
@@ -90,8 +92,13 @@ export class ResgatePersonalisadoComponent implements OnInit {
         }
         erros.push(erro)
       }
-      console.log(element)
     });
     return erros
   }
+
+  private nonEmptyForm() {
+    let controls: any = this.getControls()
+    return controls.find((element: any) => element.value.resgatar !== null);
+  }
+
 }
