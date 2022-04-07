@@ -92,7 +92,6 @@ export class ResgatePersonalisadoComponent implements OnInit {
         }
         erros.push(erro)
       }
-      console.log(element)
     });
     return erros
   }
